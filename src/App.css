@@ -17,7 +17,7 @@
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-  will-change: transform, filter; /* Hardware accelerate */
+  will-change: transform, filter; 
 }
 
 .heart-wrapper:active {
@@ -126,12 +126,11 @@
   60% { transform: scale(1); }
 }
 
-/* Polaroid Styles */
 .card-view-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* Better for scrollable content */
+  justify-content: flex-start; 
   min-height: 100vh;
   width: 100vw;
   background-color: #ffccd5;
@@ -167,7 +166,7 @@
 .polaroid-frame {
   width: 80%;
   background: #ffffff;
-  padding: 0.5rem 0.5rem 0.5rem; /* Further reduced bottom padding */
+  padding: 0.5rem 0.5rem 0.5rem; 
   border-radius: 4px;
   box-shadow: 
     0 10px 15px -3px rgba(0, 0, 0, 0.05),
@@ -183,11 +182,23 @@
   width: 100%;
   max-height: 405px;
   overflow: hidden;
-  background: #f8fafc;
+  background: radial-gradient(circle at center, #fff5f7 0%, #ffeef2 100%);
   border-radius: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+
+.card-image-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 77, 109, 0.03);
+  z-index: 1;
 }
 
 .card-image {
@@ -195,13 +206,24 @@
   height: auto;
   max-height: 405px;
   object-fit: contain;
-  animation: img-fade-in 1.5s ease forwards;
+  animation: img-fade-in 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
   opacity: 0;
+  position: relative;
+  z-index: 2;
+  will-change: transform, opacity, filter;
 }
 
 @keyframes img-fade-in {
-  from { opacity: 0; filter: blur(5px); transform: scale(1.05); }
-  to { opacity: 1; filter: blur(0); transform: scale(1); }
+  0% { 
+    opacity: 0; 
+    filter: blur(15px); 
+    transform: scale(1.1);
+  }
+  100% { 
+    opacity: 1; 
+    filter: blur(0); 
+    transform: scale(1);
+  }
 }
 
 .polaroid-heart {
@@ -228,7 +250,6 @@
   filter: drop-shadow(0 2px 4px rgba(255, 77, 109, 0.2));
 }
 
-/* Typing Text */
 .card-header {
   margin-top: 0.8rem;
   width: 100%;
@@ -298,7 +319,6 @@
   50% { opacity: 0; }
 }
 
-/* Professional Minimal Music Player UI - Pink/White Theme */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 .music-player-container {
@@ -309,7 +329,7 @@
   -webkit-backdrop-filter: blur(25px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.7);
   border-radius: 24px;
-  padding: 1rem 1.2rem; /* Increased padding */
+  padding: 1rem 1.2rem; 
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -473,7 +493,6 @@
 
 /* Responsiveness & Screen Sizes Adaptation */
 
-/* MacBook & Large Computers */
 @media (min-width: 1440px) {
   .heart-wrapper {
     width: 380px;
@@ -508,7 +527,6 @@
   }
 }
 
-/* Notebooks & Laptops */
 @media (max-width: 1439px) and (min-width: 1025px) {
   .heart-wrapper {
     width: 340px;
@@ -524,7 +542,6 @@
   }
 }
 
-/* iPads & Tablets (portrait & landscape) */
 @media (max-width: 1024px) {
   .heart-wrapper {
     width: 300px;
@@ -537,7 +554,6 @@
   }
 }
 
-/* iPads (Mobile scaling starts here) */
 @media (max-width: 768px) {
   .heart-wrapper {
     width: 280px;
@@ -562,7 +578,6 @@
   }
 }
 
-/* Mobile Devices (Large/Standard) */
 @media (max-width: 480px) {
   .heart-wrapper {
     width: 240px;
@@ -615,7 +630,6 @@
   }
 }
 
-/* Mobile Devices (Small) */
 @media (max-width: 360px) {
   .heart-wrapper {
     width: 200px;

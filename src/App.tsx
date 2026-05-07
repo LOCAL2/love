@@ -1,6 +1,16 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import { config } from './config'
 import './App.css'
+
+const useImagePreload = (urls: string[]) => {
+  useEffect(() => {
+    urls.forEach(url => {
+      if (!url) return;
+      const img = new Image();
+      img.src = url;
+    });
+  }, [urls]);
+};
 
 const TypingText = ({ text, delay = 100 }: { text: string; delay?: number }) => {
   const [displayedText, setDisplayedText] = useState('')
@@ -22,8 +32,8 @@ const TypingText = ({ text, delay = 100 }: { text: string; delay?: number }) => 
       <span 
         className="typing-text" 
         style={{ 
-          fontSize: `${config.fontSize}px`,
-          color: config.textColor 
+          fontSize: `${config.message.fontSize}px`,
+          color: config.message.color 
         }}
       >
         {displayedText}
@@ -31,9 +41,9 @@ const TypingText = ({ text, delay = 100 }: { text: string; delay?: number }) => 
       <span 
         className="cursor" 
         style={{ 
-          height: `${config.fontSize * 1.2}px`, 
-          fontSize: `${config.fontSize}px`,
-          backgroundColor: config.textColor
+          height: `${config.message.fontSize * 1.2}px`, 
+          fontSize: `${config.message.fontSize}px`,
+          backgroundColor: config.message.color
         }}
       ></span>
     </div>
@@ -82,7 +92,6 @@ const MusicPlayer = () => {
       animationRef.current = requestAnimationFrame(draw);
       analyserRef.current!.getByteFrequencyData(dataArray);
 
-      // 10 bars for higher fidelity
       for (let i = 0; i < 10; i++) {
         const bar = barRefs.current[i];
         if (bar) {
@@ -97,7 +106,7 @@ const MusicPlayer = () => {
   };
 
   useEffect(() => {
-    if (audioRef.current && config.musicUrl) {
+    if (audioRef.current && config.music.url) {
       audioRef.current.volume = 0.5;
       audioRef.current.play().then(() => {
         initAudio();
@@ -136,12 +145,12 @@ const MusicPlayer = () => {
   return (
     <div 
       className={`music-player-container ${loadError ? 'error' : ''} ${isPlaying ? 'playing' : ''}`} 
-      onClick={config.musicUrl && !loadError ? togglePlay : undefined}
+      onClick={config.music.url && !loadError ? togglePlay : undefined}
     >
-      {config.musicUrl && (
+      {config.music.url && (
         <audio 
           ref={audioRef} 
-          src={config.musicUrl} 
+          src={config.music.url} 
           loop 
           onError={handleAudioError}
           onPlay={() => {
@@ -154,8 +163,14 @@ const MusicPlayer = () => {
       
       <div className="play-button-wrapper">
         <div className="play-button-glass">
-          {config.musicThumbnail && (
-            <img src={config.musicThumbnail} alt="Thumbnail" className="music-thumbnail" />
+          {config.music.thumbnail && (
+            <img 
+              src={config.music.thumbnail} 
+              alt="Thumbnail" 
+              className="music-thumbnail" 
+              loading="lazy"
+              decoding="async"
+            />
           )}
           <div className="play-icon-overlay">
             {isPlaying ? (
@@ -175,10 +190,10 @@ const MusicPlayer = () => {
       <div className="song-details-scroller">
         <div className="song-info-wrapper">
           <span className="song-name-premium">
-            {loadError ? 'Unable to load audio' : config.songName}
+            {loadError ? 'Unable to load audio' : config.music.title}
           </span>
           <span className="artist-name-premium">
-            {loadError ? '' : config.artistName}
+            {loadError ? '' : config.music.artist}
           </span>
         </div>
         
@@ -243,6 +258,13 @@ function App() {
   const [showCard, setShowCard] = useState(false)
   const [showFlash, setShowFlash] = useState(false)
   
+  const preloadUrls = useMemo(() => [
+    config.card.image,
+    config.music.thumbnail
+  ].filter(Boolean) as string[], []);
+
+  useImagePreload(preloadUrls);
+
   const requestRef = useRef<number | null>(null)
   const lastTimeRef = useRef<number | null>(null)
 
@@ -284,30 +306,35 @@ function App() {
     setIsPressing(false)
   }
 
-
-
   if (showCard) {
     return (
       <div className="card-view-wrapper">
         <div className="card-container">
           <div className="polaroid-frame">
             <div className="card-image-wrapper">
-              <img src={config.cardImage} alt="Card" className="card-image" />
+              <img 
+                src={config.card.image} 
+                alt="Card" 
+                className="card-image" 
+                // @ts-ignore
+                fetchpriority="high"
+                decoding="async"
+              />
             </div>
-            {config.showHeart && (
+            {config.card.heart.show && (
               <div className="polaroid-heart">
-                <span className="heart-content">{config.heartContent}</span>
+                <span className="heart-content">{config.card.heart.content}</span>
               </div>
             )}
           </div>
           
           <div className="card-header">
-            <h1 className="card-title">{config.cardTitle}</h1>
+            <h1 className="card-title">{config.card.title}</h1>
           </div>
 
           <div className="message-section">
-            <p className="card-greeting">{config.cardGreeting}</p>
-            <TypingText text={config.typingText} delay={config.typingDelay} />
+            <p className="card-greeting">{config.card.greeting}</p>
+            <TypingText text={config.message.text} delay={config.message.speed} />
           </div>
 
           <MusicPlayer />

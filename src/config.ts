@@ -1,39 +1,52 @@
+/**
+ * การตั้งค่าหลักที่ต้องการให้แก้ไข
+ */
+
+// 1. ข้อมูลหน้าการ์ด (Card)
+const CARD_TITLE = "Happy 1st Anniversary";
+const CARD_GREETING = "ถึงที่รัก";
+const CARD_IMAGE = "https://i.postimg.cc/kMjLmsCS/Girl.png";
+
+// 2. ข้อมูลหัวใจ (Heart)
+const SHOW_HEART = false;
+const HEART_CONTENT = "❤️";
+
+// 3. ข้อความ (Message)
+const MESSAGE_TEXT = "สุขสันต์วันพิเศษของเรานะ ❤️ ขอบคุณที่เข้ามาเป็นความสุขเล็ก ๆ ในทุกวันของเรา อยู่ด้วยกันไปนาน ๆ แบบนี้นะ ไม่ว่าจะวันดีหรือวันแย่ เราจะอยู่ข้างเธอเสมอ ขอให้เธอมีแต่รอยยิ้ม มีความสุขมาก ๆ และไม่ว่าจะเกิดอะไรขึ้น อย่าลืมว่ายังมีเราคอยจับมืออยู่ตรงนี้นะ 💖";
+const MESSAGE_SPEED = 150;
+const MESSAGE_FONT_SIZE = 14;
+const MESSAGE_COLOR = "#000000";
+
+// 4. ข้อมูลเพลง (Music)
+const SONG_NAME = "คู่ชีวิต";
+const ARTIST_NAME = "COCKTAIL";
+const MUSIC_URL = "/song.mp3";
+const MUSIC_THUMBNAIL = "https://i.scdn.co/image/ab67616d0000b2730a770590da24ef0f70fc0155";
+
+
+/**
+ * (ไม่ต้องแก้ไขส่วนนี้)
+ */
 export const config = {
-  // Title ของ Card
-  cardTitle: "Happy Valentine Day",
-
-  // (Greeting)
-  cardGreeting: "ถึงที่รัก",
-
-  // URL ของรูปภาพที่จะแสดงใน Card
-  // cardImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpW_ge-xBntXK1_ugzkCiv3f3mrt5w0lFdLw&s",
-  cardImage: "https://i.postimg.cc/kMjLmsCS/Girl.png",
-  
-  // ข้อความที่ต้องการให้พิมพ์ (Typing Effect)
-  typingText: "สุขสันต์วันพิเศษของเรานะ ❤️ ขอบคุณที่เข้ามาเป็นความสุขเล็ก ๆ ในทุกวันของเรา อยู่ด้วยกันไปนาน ๆ แบบนี้นะ ไม่ว่าจะวันดีหรือวันแย่ เราจะอยู่ข้างเธอเสมอ ขอให้เธอมีแต่รอยยิ้ม มีความสุขมาก ๆ และไม่ว่าจะเกิดอะไรขึ้น อย่าลืมว่ายังมีเราคอยจับมืออยู่ตรงนี้นะ 💖",
-  
-  // ความเร็วในการพิมพ์ (ms) 1000ms = 1 second ต่อตัวอักษร
-  typingDelay: 150,
-  
-  // ขนาดตัวอักษรของข้อความ (px)
-  fontSize: 14,
-  
-  // สีของข้อความของ typingText
-  textColor: "#000000",
-  
-  // แสดงหัวใจในกรอบรูปหรือไม่ (true = แสดง, false = ไม่แสดง)
-  showHeart: false,
-  // ข้อความหรือ Emoji ที่จะแสดงในตำแหน่งหัวใจ (กรณี showHeart เป็น true)
-  heartContent: "❤️",
-  // สามารถใส่ข้อความได้
-  // heartContent: "Love",
-
-  // ข้อมูลเพลง
-  songName: "คู่ชีวิต",
-  artistName: "COCKTAIL",
-  // URL ของรูป Thumbnail เพลง (ถ้ามี)
-  musicThumbnail: "https://i.scdn.co/image/ab67616d0000b2730a770590da24ef0f70fc0155",
-  // ใส่ URL หรือ Path ของไฟล์เพลง (.mp3) ที่ต้องการเล่น
-  // แนะนำให้นำไฟล์เพลง mp3 ไปใส่ในโฟลเดอร์ `public` แล้วตั้งชื่อว่า song.mp3
-  musicUrl: "/song.mp3", // ไฟล์นี้อยู่ในโฟลเดอร์ public/song.mp3
+  card: {
+    title: CARD_TITLE,
+    greeting: CARD_GREETING,
+    image: CARD_IMAGE,
+    heart: {
+      show: SHOW_HEART,
+      content: HEART_CONTENT,
+    },
+  },
+  message: {
+    text: MESSAGE_TEXT,
+    speed: MESSAGE_SPEED,
+    fontSize: MESSAGE_FONT_SIZE,
+    color: MESSAGE_COLOR,
+  },
+  music: {
+    title: SONG_NAME,
+    artist: ARTIST_NAME,
+    url: MUSIC_URL,
+    thumbnail: MUSIC_THUMBNAIL,
+  },
 };
