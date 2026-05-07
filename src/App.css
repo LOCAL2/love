@@ -50,8 +50,9 @@
 .app-main-wrapper {
   position: relative;
   width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
   background: radial-gradient(circle at center, #ffffff 0%, #fff0f3 15%, #ffccd5 60%);
 }
 
