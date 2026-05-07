@@ -221,7 +221,7 @@ const Particle = ({ angle, distance, delay }: { angle: number; distance: number;
   );
 };
 
-const ParticleSystem = ({ count = 20 }: { count?: number }) => {
+const ParticleSystem = ({ count = 12 }: { count?: number }) => {
   return (
     <div className="particle-container">
       {Array.from({ length: count }).map((_, i) => (
@@ -274,7 +274,7 @@ function App() {
     return () => {
       if (requestRef.current) cancelAnimationFrame(requestRef.current)
     }
-  }, [isPressing, isBooming, fillLevel]) // Added fillLevel to dependencies just in case
+  }, [isPressing, isBooming, fillLevel]) 
 
   const handlePointerDown = () => {
     if (!isBooming) setIsPressing(true)
@@ -327,6 +327,7 @@ function App() {
         <div 
           id="heart-trigger"
           className={`heart-wrapper ${fillLevel === 100 ? 'full' : ''} ${isBooming ? 'boom' : ''}`}
+          style={{ '--fill-level': '0' } as any}
           onPointerDown={handlePointerDown}
           onPointerUp={handlePointerUp}
           onPointerLeave={handlePointerUp}
