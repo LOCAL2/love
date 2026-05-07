@@ -1,0 +1,551 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  user-select: none;
+  background: transparent;
+}
+
+.heart-wrapper {
+  position: relative;
+  width: 300px;
+  height: 280px;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.heart-wrapper:active {
+  transform: scale(0.9);
+}
+
+.heart-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 10px 20px rgba(255, 75, 110, 0.2));
+}
+
+.heart-bg {
+  fill: none;
+  stroke: #ff4d6d;
+  stroke-width: 0.8;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.heart-fill {
+  fill: #ff4d6d;
+  filter: drop-shadow(0 0 15px rgba(255, 77, 109, 0.4));
+}
+
+.heart-wrapper.full .heart-fill {
+  animation: heartbeat 0.8s infinite cubic-bezier(0.215, 0.610, 0.355, 1.000);
+}
+
+.app-main-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: radial-gradient(circle at center, #ffffff 0%, #fff0f3 15%, #ffccd5 60%);
+}
+
+.flash-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  z-index: 1000;
+  pointer-events: none;
+  animation: flash-anim 0.8s ease-out forwards;
+}
+
+@keyframes flash-anim {
+  0% { opacity: 0; }
+  20% { opacity: 0.8; }
+  100% { opacity: 0; }
+}
+
+.particle-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 500;
+}
+
+.particle-heart {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  fill: #ff4d6d;
+  opacity: 0;
+  animation: particle-fly 1.2s var(--delay) ease-out forwards;
+}
+
+@keyframes particle-fly {
+  0% {
+    transform: translate(0, 0) scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(0.5) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.heart-wrapper.boom {
+  animation: heart-boom 1.2s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  pointer-events: none;
+}
+
+@keyframes heart-boom {
+  0% { transform: scale(1); opacity: 1; filter: brightness(1) blur(0px); }
+  20% { transform: scale(1.1); filter: brightness(1.1); }
+  100% { transform: scale(4); opacity: 0; filter: brightness(2) blur(20px); }
+}
+
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  15% { transform: scale(1.12); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.08); }
+  60% { transform: scale(1); }
+}
+
+/* Polaroid Styles */
+.card-view-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Ensure content starts from top for scrolling */
+  min-height: 100vh;
+  width: 100vw;
+  background-color: #ffccd5;
+  padding: 3rem 1rem; /* More vertical padding for breathing room */
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.card-container {
+  max-width: 420px; /* Slice increase in max-width */
+  width: 95%;
+  height: auto;
+  background: #f8f9fa;
+  border-radius: 32px;
+  padding: 1.5rem 1.5rem 2rem; /* Increased padding all around */
+  box-shadow: 0 40px 80px rgba(255, 75, 110, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: card-appear 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  position: relative;
+  overflow: visible;
+  margin-bottom: 2rem; /* Ensure it doesn't hit the bottom edge */
+}
+
+@keyframes card-appear {
+  0% { opacity: 0; transform: translateY(100px) scale(0.8); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.polaroid-frame {
+  width: 80%;
+  background: #ffffff;
+  padding: 0.5rem 0.5rem 0.5rem; /* Further reduced bottom padding */
+  border-radius: 4px;
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.05),
+    0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.card-image-wrapper {
+  width: 100%;
+  max-height: 450px;
+  overflow: hidden;
+  background: #f8fafc;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-image {
+  width: 100%;
+  height: auto;
+  max-height: 450px;
+  object-fit: contain; /* Changed to contain to ensure full image visibility */
+  animation: img-fade-in 1.5s ease forwards;
+  opacity: 0;
+}
+
+@keyframes img-fade-in {
+  from { opacity: 0; filter: blur(5px); transform: scale(1.05); }
+  to { opacity: 1; filter: blur(0); transform: scale(1); }
+}
+
+.polaroid-heart {
+  position: relative;
+  margin: 1.2rem 0 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.polaroid-heart:hover {
+  transform: scale(1.2);
+}
+
+.heart-content {
+  font-size: 1.5rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff4d6d;
+  filter: drop-shadow(0 2px 4px rgba(255, 77, 109, 0.2));
+}
+
+/* Typing Text */
+.card-header {
+  margin-top: 1.2rem;
+  width: 100%;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ff4d6d;
+  margin: 0;
+  letter-spacing: -0.02em;
+  text-align: center; /* Centered as requested */
+}
+
+.message-section {
+  align-self: stretch; /* Take full available width of parent column */
+  margin: 1.5rem 0.8rem 0; /* Exact even margins on left and right */
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.2rem;
+  border: 1px solid rgba(255, 75, 110, 0.1);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+  text-align: left;
+}
+
+.card-greeting {
+  font-size: 0.9rem;
+  color: #1a1a1a;
+  margin: 0 0 0.6rem;
+  font-weight: 600;
+  text-align: left;
+  display: block;
+  width: 100%;
+}
+
+.typing-text-container {
+  width: 100%;
+  text-align: left;
+  display: block;
+}
+
+.typing-text {
+  font-size: 10px; /* Overwritten by style prop */
+  font-weight: 500;
+  color: #1a1a1a;
+  text-align: justify; /* Justify for cleaner block appearance */
+  text-justify: inter-word;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  display: inline;
+  word-break: normal;
+  overflow-wrap: break-word;
+  line-break: auto;
+}
+
+.cursor {
+  display: inline-block; /* Inline-block to allow width/height but flow with text */
+  width: 2px;
+  background-color: #ff4d6d;
+  margin-left: 2px;
+  animation: blink 0.8s infinite;
+  vertical-align: middle;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Professional Minimal Music Player UI - Pink/White Theme */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.music-player-container {
+  margin-top: 2.5rem; /* Increased from 2rem */
+  width: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 24px;
+  padding: 1rem 1.2rem; /* Increased padding */
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 
+    0 10px 30px rgba(255, 75, 110, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  animation: player-entrance 1s 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+  font-family: 'Inter', sans-serif;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes player-entrance {
+  0% { opacity: 0; transform: translateY(30px) scale(0.95); filter: blur(10px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+.music-player-container:hover {
+  background: rgba(255, 255, 255, 0.7);
+  transform: translateY(-4px) scale(1.02);
+  border-color: rgba(255, 255, 255, 1);
+  box-shadow: 0 20px 40px rgba(255, 75, 110, 0.15);
+}
+
+.play-button-wrapper {
+  flex-shrink: 0;
+}
+
+.play-button-glass {
+  width: 52px;
+  height: 52px;
+  background: #ffffff;
+  border-radius: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(255, 77, 109, 0.2);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.music-thumbnail {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.9;
+  filter: brightness(0.9);
+  transition: all 0.5s ease;
+}
+
+.music-player-container.playing .music-thumbnail {
+  opacity: 1;
+  filter: brightness(1);
+}
+
+.play-icon-overlay {
+  position: relative;
+  z-index: 2;
+  color: white;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(1px);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.music-player-container:hover .play-icon-overlay,
+.music-player-container.playing:hover .play-icon-overlay {
+  opacity: 1;
+}
+
+.play-icon-overlay .icon {
+  width: 24px;
+  height: 24px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.song-details-scroller {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.25rem;
+  overflow: hidden;
+}
+
+.song-info-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.song-name-premium {
+  color: #c9184a;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.artist-name-premium {
+  color: #ff758f;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  opacity: 0.8;
+}
+
+.visualizer-container {
+  height: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.visualizer {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 100%;
+}
+
+.bar {
+  width: 3px;
+  background: linear-gradient(to top, #ff4d6d, #ff758f);
+  border-radius: 2px;
+  opacity: 0.7;
+  transition: height 0.15s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+}
+
+.music-player-container.playing .bar {
+  opacity: 1;
+}
+
+.music-player-container.error {
+  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.music-player-container.error .song-name-premium {
+  color: #ef4444;
+}
+
+.music-player-container.error .icon-error {
+  color: #ef4444;
+  width: 16px;
+  height: 16px;
+}
+
+/* Responsiveness */
+@media (max-width: 480px) {
+  .heart-wrapper {
+    width: 250px;
+    height: 230px;
+  }
+  
+  .card-container {
+    padding: 1rem 1rem 0.8rem;
+    border-radius: 24px;
+    width: 92%;
+  }
+
+  .message-section {
+    padding: 1rem;
+    margin: 1.2rem 0.5rem 0;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+  }
+
+  .music-player-container {
+    padding: 0.6rem 0.8rem;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+  }
+
+  .play-button-glass {
+    width: 46px;
+    height: 46px;
+  }
+
+  .song-name-premium {
+    font-size: 0.85rem;
+  }
+
+  .artist-name-premium {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .heart-wrapper {
+    width: 200px;
+    height: 185px;
+  }
+
+  .percentage {
+    font-size: 1.2rem;
+  }
+
+  .instruction {
+    font-size: 1rem;
+  }
+
+  .card-container {
+    padding: 0.8rem 0.8rem 0.6rem;
+  }
+
+  .polaroid-frame {
+    width: 90%;
+  }
+
+  .music-player-container {
+    gap: 0.6rem;
+  }
+
+  .play-button-glass {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .visualizer-container {
+    display: none; /* Hide visualizer on extremely small screens to save space */
+  }
+}
+
+
+/* Remove restrictive max-height */
+/* @media (min-height: 800px) { ... } */
