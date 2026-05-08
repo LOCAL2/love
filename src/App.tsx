@@ -2,10 +2,10 @@ import { useState, useRef, useEffect, useMemo } from 'react'
 import { config } from './config'
 import './App.css'
 
-const useImagePreload = (urls: string[]) => {
+const useImagePreload = (urls: (string | string[])[]) => {
   useEffect(() => {
-    urls.forEach(url => {
-      if (!url) return;
+    const flattenedUrls = urls.flat().filter(Boolean);
+    flattenedUrls.forEach(url => {
       const img = new Image();
       img.src = url;
     });
@@ -216,6 +216,42 @@ const MusicPlayer = () => {
 }
 
 
+const Carousel = ({ images }: { images: string[] }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    }, config.card.carouselInterval * 1000); 
+    return () => clearInterval(interval);
+  }, [images.length]);
+
+  return (
+    <div className="carousel-container">
+      <div className="photo-overlay" />
+      {images.map((img, idx) => (
+        <img
+          key={idx}
+          src={img}
+          alt={`Card ${idx}`}
+          className={`card-image carousel-image ${idx === currentIndex ? 'active' : ''}`}
+          fetchPriority={idx === 0 ? "high" : "low" }
+          decoding="async"
+        />
+      ))}
+      <div className="carousel-dots">
+        {images.map((_, idx) => (
+          <div 
+            key={idx} 
+            className={`dot ${idx === currentIndex ? 'active' : ''}`} 
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+
 const Particle = ({ angle, distance, delay }: { angle: number; distance: number; delay: number }) => {
   const x = Math.cos(angle) * distance;
   const y = Math.sin(angle) * distance;
@@ -311,16 +347,22 @@ function App() {
       <div className="card-view-wrapper">
         <div className="card-container">
           <div className="polaroid-frame">
-            <div className="card-image-wrapper">
-              <img 
-                src={config.card.image} 
-                alt="Card" 
-                className="card-image" 
-                // @ts-ignore
-                fetchpriority="high"
-                decoding="async"
-              />
-            </div>
+          <div className="card-image-wrapper">
+            {Array.isArray(config.card.image) && config.card.image.length > 1 ? (
+              <Carousel images={config.card.image} />
+            ) : (
+                <div className="card-image-wrapper single">
+                  <div className="photo-overlay" />
+                  <img 
+                    src={Array.isArray(config.card.image) ? config.card.image[0] : config.card.image} 
+                    alt="Card" 
+                    className="card-image" 
+                    fetchPriority="high"
+                    decoding="async"
+                  />
+                </div>
+            )}
+          </div>
             {config.card.heart.show && (
               <div className="polaroid-heart">
                 <span className="heart-content">{config.card.heart.content}</span>
