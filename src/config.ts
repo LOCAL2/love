@@ -6,9 +6,9 @@
 const CARD_TITLE = "Happy 1st Anniversary";
 const CARD_GREETING = "ถึงที่รัก";
 const CARD_IMAGE = [
-  "https://i.postimg.cc/kMjLmsCS/Girl.png",
-  "https://img2.pic.in.th/G2.jpg",
-  "https://img2.pic.in.th/image42c483d945d76b13.png",
+  "",
+  "",
+  "",
 ]; // ใส่ได้ทั้งรูปเดียว (string) หรือหลายรูป (Array ของ string)
 const CAROUSEL_INTERVAL = 3; // ระยะเวลาเปลี่ยนรูป (หน่วยเป็นวินาที)
 
