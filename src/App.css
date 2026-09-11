@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 .container {
   display: flex;
   flex-direction: column;
@@ -395,9 +397,6 @@
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
 .music-player-container {
   margin-top: 1.2rem;
   width: 100%;
